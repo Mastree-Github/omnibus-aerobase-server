@@ -1,4 +1,4 @@
-external_url 'http://aerobase.example.com'
+external_url 'http://cf59455bcd31.ngrok.io'
 keycloak_server['theme_cache'] = false
 
 #postgresql['enable'] = false
