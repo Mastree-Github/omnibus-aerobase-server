@@ -20,12 +20,21 @@ spec:
         spec:
             containers:
                 - name: mastree-sso
-                  image: gcr.io/principal-yen-260608/aerobase/aerobase:1.0.0
+                  image: gcr.io/principal-yen-260608/aerobase/aerobase:1.0.2
                   ports:
                       - containerPort: 80
                         protocol: TCP
                         name: http
                   imagePullPolicy: Always
+                  volumeMounts:
+                      - mountPath: /etc/aerobase
+                        name: aerobase-claim0
+                      - mountPath: /var/opt/aerobase
+                        name: aerobase-claim1
+                      - mountPath: /var/log/aerobase
+                        name: aerobase-claim2
+                      - mountPath: /etc/aerobase/overrides.rb
+                        name: aerobase-claim4
                   readinessProbe:
                       httpGet:
                           path: /
@@ -35,3 +44,19 @@ spec:
                       successThreshold: 2
                       failureThreshold: 2
                       timeoutSeconds: 2
+            volumes:
+              - name: aerobase-claim0
+                persistentVolumeClaim:
+                    claimName: aerobase-claim0
+              - name: aerobase-claim1
+                persistentVolumeClaim:
+                    claimName: aerobase-claim1
+              - name: aerobase-claim2
+                persistentVolumeClaim:
+                    claimName: aerobase-claim2
+              - name: aerobase-claim3
+                persistentVolumeClaim:
+                    claimName: aerobase-claim3
+              - name: aerobase-claim4
+                persistentVolumeClaim:
+                    claimName: aerobase-claim4

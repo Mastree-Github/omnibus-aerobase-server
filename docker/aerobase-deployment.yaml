@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: aerobase
+  name: aerobase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: aerobase
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: aerobase
+    spec:
+      containers:
+        - image: aerobase/aerobase:latest
+          name: aerobase
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+            - containerPort: 5432
+          resources: {}
+          volumeMounts:
+            - mountPath: /etc/aerobase
+              name: aerobase-claim0
+            - mountPath: /var/opt/aerobase
+              name: aerobase-claim1
+            - mountPath: /var/log/aerobase
+              name: aerobase-claim2
+            - mountPath: /var/opt/aerobase/aerobase-server/themes
+              name: aerobase-claim3
+            - mountPath: /etc/aerobase/overrides.rb
+              name: aerobase-claim4
+      hostname: aerobase.example.com
+      restartPolicy: Always
+      volumes:
+        - name: aerobase-claim0
+          persistentVolumeClaim:
+            claimName: aerobase-claim0
+        - name: aerobase-claim1
+          persistentVolumeClaim:
+            claimName: aerobase-claim1
+        - name: aerobase-claim2
+          persistentVolumeClaim:
+            claimName: aerobase-claim2
+        - name: aerobase-claim3
+          persistentVolumeClaim:
+            claimName: aerobase-claim3
+        - name: aerobase-claim4
+          persistentVolumeClaim:
+            claimName: aerobase-claim4
+status: {}
