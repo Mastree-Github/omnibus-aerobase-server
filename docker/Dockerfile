@@ -32,6 +32,7 @@ RUN ln -fs /dev/null /run/motd.dynamic
 
 # Copy assets
 COPY assets/ /assets
+COPY overrides.rb /etc/aerobase/overrides.rb
 RUN /assets/download
 RUN /assets/setup
 
@@ -42,7 +43,7 @@ ENV PATH /opt/aerobase/embedded/bin:/opt/aerobase/bin:/assets:$PATH
 ENV TERM xterm
 
 # Expose web & ssh
-EXPOSE 443 80 22
+EXPOSE 443 80 22 5432
 
 # Define data volumes
 VOLUME ["/etc/aerobase", "/var/opt/aerobase", "/var/log/aerobase"]
